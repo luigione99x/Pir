@@ -3,7 +3,10 @@ import '../backend/backend.dart';
 import '../edit_profile_page/edit_profile_page_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../flutter_flow/flutter_flow_video_player.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../main.dart';
+import '../post_details/post_details_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -110,19 +113,41 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                           Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.white,
-                              size: 30,
+                            child: InkWell(
+                              onTap: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        NavBarPage(initialPage: 'AddPostPage'),
+                                  ),
+                                );
+                              },
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: 30,
+                              ),
                             ),
                           ),
                           Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                            child: Icon(
-                              Icons.menu_rounded,
-                              color: Colors.white,
-                              size: 30,
+                            child: InkWell(
+                              onTap: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditProfilePageWidget(),
+                                  ),
+                                );
+                              },
+                              child: Icon(
+                                Icons.menu_rounded,
+                                color: Colors.white,
+                                size: 30,
+                              ),
                             ),
                           )
                         ],
@@ -156,16 +181,27 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             1, 0, 0, 0),
-                                        child: Container(
-                                          width: 100,
-                                          height: 100,
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Image.network(
-                                            profilePageUsersRecord
-                                                .profilePicUrl,
+                                        child: InkWell(
+                                          onTap: () async {
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EditProfilePageWidget(),
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: 100,
+                                            height: 100,
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Image.network(
+                                              profilePageUsersRecord
+                                                  .profilePicUrl,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -373,9 +409,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                       ),
                       StreamBuilder<List<PostsRecord>>(
                         stream: queryPostsRecord(
-                          queryBuilder: (postsRecord) => postsRecord.where(
-                              'username',
-                              isEqualTo: profilePageUsersRecord.username),
+                          queryBuilder: (postsRecord) => postsRecord
+                              .where('user', isEqualTo: currentUserReference),
                           limit: 12,
                         ),
                         builder: (context, snapshot) {
@@ -397,7 +432,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                             padding: EdgeInsets.zero,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
+                              crossAxisCount: 2,
                               crossAxisSpacing: 0,
                               mainAxisSpacing: 0,
                               childAspectRatio: 1,
@@ -409,24 +444,35 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                             itemBuilder: (context, gridViewIndex) {
                               final gridViewPostsRecord =
                                   gridViewPostsRecordList[gridViewIndex];
-                              return Stack(
-                                children: [
-                                  Image.network(
-                                    gridViewPostsRecord.userProfilePic,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  Align(
-                                    alignment:
-                                        AlignmentDirectional(0.85, -0.85),
-                                    child: Icon(
-                                      Icons.content_copy,
-                                      color: Color(0xD8FFFFFF),
-                                      size: 24,
+                              return InkWell(
+                                onTap: () async {
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PostDetailsWidget(),
                                     ),
-                                  )
-                                ],
+                                  );
+                                },
+                                child: Container(
+                                  width: 1080,
+                                  height: 1920,
+                                  child: Stack(
+                                    children: [
+                                      Align(
+                                        alignment: AlignmentDirectional(0, 0),
+                                        child: FlutterFlowVideoPlayer(
+                                          path: gridViewPostsRecord.videoPost,
+                                          videoType: VideoType.network,
+                                          autoPlay: false,
+                                          looping: true,
+                                          showControls: true,
+                                          allowFullScreen: true,
+                                          allowPlaybackSpeedMenu: false,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
                               );
                             },
                           );

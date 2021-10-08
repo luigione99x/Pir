@@ -62,12 +62,7 @@ class _AddPostPageWidgetState extends State<AddPostPageWidget> {
                 size: 30,
               ),
               onPressed: () async {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NavBarPage(initialPage: 'FeedPage'),
-                  ),
-                );
+                Navigator.pop(context);
               },
             ),
           )
@@ -234,7 +229,7 @@ class _AddPostPageWidgetState extends State<AddPostPageWidget> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              NavBarPage(initialPage: 'FeedPage'),
+                              NavBarPage(initialPage: 'FeedPage2'),
                         ),
                       );
                     } finally {

@@ -9,7 +9,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:piramidim/on_boarding/on_boarding_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
-import 'feed_page/feed_page_widget.dart';
+import 'feed_page2/feed_page2_widget.dart';
 import 'search_page/search_page_widget.dart';
 import 'add_post_page/add_post_page_widget.dart';
 import 'seller_form_page/seller_form_page_widget.dart';
@@ -85,7 +85,7 @@ class NavBarPage extends StatefulWidget {
 
 /// This is the private State class that goes with NavBarPage.
 class _NavBarPageState extends State<NavBarPage> {
-  String _currentPage = 'FeedPage';
+  String _currentPage = 'FeedPage2';
 
   @override
   void initState() {
@@ -96,7 +96,7 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = {
-      'FeedPage': FeedPageWidget(),
+      'FeedPage2': FeedPage2Widget(),
       'SearchPage': SearchPageWidget(),
       'AddPostPage': AddPostPageWidget(),
       'SellerFormPage': SellerFormPageWidget(),
@@ -109,10 +109,6 @@ class _NavBarPageState extends State<NavBarPage> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home_outlined,
-              size: 24,
-            ),
-            activeIcon: Icon(
-              Icons.home,
               size: 24,
             ),
             label: 'Home',

@@ -313,7 +313,7 @@ class _LogSignWidgetState extends State<LogSignWidget> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => NavBarPage(
-                                                initialPage: 'FeedPage'),
+                                                initialPage: 'FeedPage2'),
                                           ),
                                           (r) => false,
                                         );

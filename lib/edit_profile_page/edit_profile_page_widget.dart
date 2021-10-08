@@ -1,7 +1,9 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../backend/firebase_storage/storage.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../flutter_flow/upload_media.dart';
 import '../main.dart';
 import '../on_boarding/on_boarding_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,6 +23,7 @@ class EditProfilePageWidget extends StatefulWidget {
 }
 
 class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
+  String uploadedFileUrl = '';
   TextEditingController textController1;
   TextEditingController textController2;
   TextEditingController textController3;
@@ -79,6 +82,7 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                         username: textController2.text,
                         website: textController3.text,
                         bio: textController4.text,
+                        profilePicUrl: uploadedFileUrl,
                       );
                       await widget.user.reference.update(usersUpdateData);
                       Navigator.pop(context);
@@ -120,13 +124,38 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
               alignment: AlignmentDirectional(0, 0),
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                child: Text(
-                  'Change Profile Photo\n(coming soon)',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.bodyText1.override(
-                    fontFamily: 'Lexend Deca',
-                    color: FlutterFlowTheme.primaryColor,
-                    fontWeight: FontWeight.bold,
+                child: InkWell(
+                  onTap: () async {
+                    final selectedMedia =
+                        await selectMediaWithSourceBottomSheet(
+                      context: context,
+                      allowPhoto: true,
+                    );
+                    if (selectedMedia != null &&
+                        validateFileFormat(
+                            selectedMedia.storagePath, context)) {
+                      showUploadMessage(context, 'Uploading file...',
+                          showLoading: true);
+                      final downloadUrl = await uploadData(
+                          selectedMedia.storagePath, selectedMedia.bytes);
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      if (downloadUrl != null) {
+                        setState(() => uploadedFileUrl = downloadUrl);
+                        showUploadMessage(context, 'Success!');
+                      } else {
+                        showUploadMessage(context, 'Failed to upload media');
+                        return;
+                      }
+                    }
+                  },
+                  child: Text(
+                    'Change Profile Photo',
+                    textAlign: TextAlign.center,
+                    style: FlutterFlowTheme.bodyText1.override(
+                      fontFamily: 'Lexend Deca',
+                      color: FlutterFlowTheme.primaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),

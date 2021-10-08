@@ -4,6 +4,7 @@ import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -215,60 +216,31 @@ class _CompleteProfile2WidgetState extends State<CompleteProfile2Widget> {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                StreamBuilder<List<UsersRecord>>(
-                                  stream: queryUsersRecord(
-                                    singleRecord: true,
+                                FlutterFlowDropDown(
+                                  initialOption: provinceFieldLabelValue ??=
+                                      'Provincia',
+                                  options: ['Ancona', 'Macerata'].toList(),
+                                  onChanged: (val) => setState(
+                                      () => provinceFieldLabelValue = val),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  height: 55,
+                                  textStyle:
+                                      FlutterFlowTheme.bodyText1.override(
+                                    fontFamily: 'Lexend Deca',
+                                    color: Colors.black,
                                   ),
-                                  builder: (context, snapshot) {
-                                    // Customize what your widget looks like when it's loading.
-                                    if (!snapshot.hasData) {
-                                      return Center(
-                                        child: SizedBox(
-                                          width: 50,
-                                          height: 50,
-                                          child: CircularProgressIndicator(
-                                            color:
-                                                FlutterFlowTheme.primaryColor,
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    List<UsersRecord>
-                                        provinceFieldLabelUsersRecordList =
-                                        snapshot.data;
-                                    // Return an empty Container when the document does not exist.
-                                    if (snapshot.data.isEmpty) {
-                                      return Container();
-                                    }
-                                    final provinceFieldLabelUsersRecord =
-                                        provinceFieldLabelUsersRecordList
-                                                .isNotEmpty
-                                            ? provinceFieldLabelUsersRecordList
-                                                .first
-                                            : null;
-                                    return FlutterFlowDropDown(
-                                      initialOption: provinceFieldLabelValue ??=
-                                          'Provincia',
-                                      options: ['Ancona', 'Macerata'].toList(),
-                                      onChanged: (val) => setState(
-                                          () => provinceFieldLabelValue = val),
-                                      width: MediaQuery.of(context).size.width *
-                                          0.9,
-                                      height: 50,
-                                      textStyle:
-                                          FlutterFlowTheme.bodyText1.override(
-                                        fontFamily: 'Lexend Deca',
-                                        color: Colors.black,
-                                      ),
-                                      fillColor: Colors.white,
-                                      elevation: 2,
-                                      borderColor: Color(0xFF060606),
-                                      borderWidth: 0,
-                                      borderRadius: 100,
-                                      margin: EdgeInsetsDirectional.fromSTEB(
-                                          8, 4, 8, 4),
-                                    );
-                                  },
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    size: 15,
+                                  ),
+                                  fillColor: Colors.white,
+                                  elevation: 2,
+                                  borderColor: Color(0xFF060606),
+                                  borderWidth: 2,
+                                  borderRadius: 100,
+                                  margin: EdgeInsetsDirectional.fromSTEB(
+                                      8, 4, 8, 4),
                                 )
                               ],
                             ),
@@ -280,41 +252,52 @@ class _CompleteProfile2WidgetState extends State<CompleteProfile2Widget> {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                FFButtonWidget(
-                                  onPressed: () async {
-                                    setState(() => _loadingButton = true);
-                                    try {
-                                      final usersUpdateData =
-                                          createUsersRecordData(
-                                        username:
-                                            usernameFieldLabelController.text,
-                                        provincia: provinceFieldLabelValue,
-                                      );
-                                      await currentUserReference
-                                          .update(usersUpdateData);
-                                    } finally {
-                                      setState(() => _loadingButton = false);
-                                    }
-                                  },
-                                  text: 'Salva e Vai Avanti',
-                                  options: FFButtonOptions(
-                                    width: 200,
-                                    height: 50,
-                                    color: Color(0xFF4B39EF),
-                                    textStyle:
-                                        FlutterFlowTheme.subtitle2.override(
-                                      fontFamily: 'Lexend Deca',
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 20, 0, 0),
+                                  child: FFButtonWidget(
+                                    onPressed: () async {
+                                      setState(() => _loadingButton = true);
+                                      try {
+                                        final usersUpdateData =
+                                            createUsersRecordData(
+                                          username:
+                                              usernameFieldLabelController.text,
+                                          provincia: provinceFieldLabelValue,
+                                        );
+                                        await currentUserReference
+                                            .update(usersUpdateData);
+                                        await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => NavBarPage(
+                                                initialPage: 'FeedPage2'),
+                                          ),
+                                        );
+                                      } finally {
+                                        setState(() => _loadingButton = false);
+                                      }
+                                    },
+                                    text: 'Salva e Vai Avanti',
+                                    options: FFButtonOptions(
+                                      width: 200,
+                                      height: 50,
+                                      color: Color(0xFF4B39EF),
+                                      textStyle:
+                                          FlutterFlowTheme.subtitle2.override(
+                                        fontFamily: 'Lexend Deca',
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1,
+                                      ),
+                                      borderRadius: 12,
                                     ),
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1,
-                                    ),
-                                    borderRadius: 12,
+                                    loading: _loadingButton,
                                   ),
-                                  loading: _loadingButton,
                                 )
                               ],
                             ),
