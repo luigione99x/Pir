@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "486092994250",
+    "project_id": "piramidim-cd816",
+    "storage_bucket": "piramidim-cd816.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486092994250:android:833d0774786543e487a633",
+        "android_client_info": {
+          "package_name": "com.flutterflow.quickounce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486092994250-rd00hsufolvq0u7f27a260d2roilsv0u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyNWrjJbn6ghx5IMoHsoE82xxAeelHw3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486092994250-rd00hsufolvq0u7f27a260d2roilsv0u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "486092994250-2li7n8snv81eo0mb3k9ungmb3t4glu61.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.flutterflow.quickounce"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
